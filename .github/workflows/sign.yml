@@ -1,0 +1,22 @@
+name: auto-sign
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: 30 1 * * *
+  watch:
+    types: [started]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: install Dependencies
+        run: npm install
+      - name: auto-sign
+        run: node index.js
