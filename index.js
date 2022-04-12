@@ -100,8 +100,7 @@ async function main() {
     return
   }
   console.log(title)
-  await server({ title })
-  await page.screenshot({ path: `screenshot.png` })
+  // await server({ title })
   browser.close()
 }
 
