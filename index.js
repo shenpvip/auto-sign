@@ -4,7 +4,7 @@ const server = require("./push")
 
 function errorHandler(tips, error) {
   console.log(tips)
-  server({ title: tips, content: error })
+  // server({ title: tips, content: error })
 }
 
 async function main() {
@@ -74,9 +74,12 @@ async function main() {
       await page.click("#checkin")
       console.log("签到成功!")
       title = "签到成功"
+      await page.waitForTimeout(3000)
       const count = await page.$eval("#msg", (node) => node.innerText)
-      title += `，${count}`
-      await page.click("#result_ok")
+      if (count) {
+        title += `，${count}`
+        await page.click("#result_ok")
+      }
     } else {
       console.log("今日已签到!")
       title = "今日已签到"
