@@ -2,15 +2,11 @@ const config = require("./config.json")
 const axios = require("axios")
 
 function server(content) {
-  axios({
-    method: "post",
-    url: "https://sctapi.ftqq.com/" + config.sckey + ".send",
-    data: {
-      title: content.title,
-      desp: content.desp,
-    },
-    headers: { "Content-type": "application/x-www-form-urlencoded" },
-  })
+  const params = new URLSearchParams()
+  params.append("title", content.title)
+  params.append("desp", content.desp)
+  axios
+    .post("https://sctapi.ftqq.com/" + config.sckey + ".send", params)
     .then((res) => {
       console.log(res)
       console.log("Server酱推送成功")

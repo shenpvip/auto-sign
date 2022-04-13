@@ -4,7 +4,7 @@ const server = require("./push")
 
 function errorHandler(tips, error) {
   console.log(tips)
-  // server({ title: tips, content: error })
+  server({ title: tips, content: error })
 }
 
 async function main() {
@@ -77,7 +77,7 @@ async function main() {
       await page.waitForTimeout(3000)
       const count = await page.$eval("#msg", (node) => node.innerText)
       if (count) {
-        title += `，${count}`
+        title += ` ${count}`
         await page.click("#result_ok")
       }
     } else {
@@ -95,7 +95,7 @@ async function main() {
   // 获取剩余流量信息
   try {
     const remark = await page.$eval("#remain", (node) => node.innerText)
-    title += `，剩余流量：${remark}`
+    title += ` 剩余流量：${remark}`
     console.log(`剩余流量：${remark}`)
   } catch (error) {
     errorHandler("获取剩余流量失败!", error)
@@ -103,7 +103,7 @@ async function main() {
     return
   }
   console.log(title)
-  // await server({ title })
+  await server({ title })
   browser.close()
 }
 
