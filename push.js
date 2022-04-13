@@ -7,8 +7,7 @@ function server(content) {
   params.append("desp", content.desp)
   axios
     .post("https://sctapi.ftqq.com/" + config.sckey + ".send", params)
-    .then((res) => {
-      console.log(res)
+    .then(() => {
       console.log("Server酱推送成功")
     })
     .catch((error) => {
