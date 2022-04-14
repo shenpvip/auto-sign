@@ -43,12 +43,13 @@ const pushMsg = (infos) => {
   const titleLeftDays = infos?.[0]["天数"]
   const titleCheckInMessage = infos?.[0]["签到情况"]
 
-  const title = `- 账号:${titleEmail}\n
+  const title = 
+   `- 账号:${titleEmail}\n
     - 天数: ${titleLeftDays}\n
     - 签到情况:${titleCheckInMessage}`
 
   server({
-    title: `签到成功，天数：${titleLeftDays}`,
+    title: `glados签到成功，天数：${titleLeftDays}`,
     desp: title,
   })
 }
