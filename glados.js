@@ -38,20 +38,14 @@ const checkInAndGetStatus = async (cookie) => {
   }
 }
 
-const pushplus = (infos) => {
+const pushMsg = (infos) => {
   const titleEmail = infos?.[0]["账号"]
   const titleLeftDays = infos?.[0]["天数"]
   const titleCheckInMessage = infos?.[0]["签到情况"]
-  const titleSpace = 4
 
-  const title = (
-    "账号: " +
-    `${titleEmail}`.padEnd(titleEmail.length + titleSpace) +
-    "天数: " +
-    `${titleLeftDays}`.padEnd(titleLeftDays.toString().length + titleSpace) +
-    "签到情况: " +
-    `${titleCheckInMessage}`
-  ).slice(0, 100)
+  const title = `- 账号:${titleEmail}\n
+    - 天数: ${titleLeftDays}\n
+    - 签到情况:${titleCheckInMessage}`
 
   server({
     title: `签到成功，天数：${titleLeftDays}`,
@@ -69,7 +63,7 @@ const GLaDOSCheckIn = async () => {
     console.log(infos)
 
     if (infos.length) {
-      pushplus(infos)
+      pushMsg(infos)
     }
   } catch (error) {
     console.log(error)
