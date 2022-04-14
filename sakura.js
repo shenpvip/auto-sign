@@ -73,7 +73,7 @@ async function main() {
     if (signBtn) {
       await page.click("#checkin")
       console.log("签到成功!")
-      title = "签到成功"
+      title = "sakura签到成功"
       await page.waitForTimeout(3000)
       const count = await page.$eval("#msg", (node) => node.innerText)
       if (count) {
