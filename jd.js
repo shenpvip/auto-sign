@@ -39,6 +39,7 @@ async function main() {
   await page.screenshot({ path: "example.png" })
   //   const cookies = await page.cookies()
   //   console.log(cookies)
+  
   browser.close()
 }
 main()
