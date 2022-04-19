@@ -1,26 +1,24 @@
 const fs = require("fs").promises,
-  https = require("https"),
-  { execSync } = require("child_process")
+  axios = require("axios"),
+  { execSync } = require("child_process"),
+  server = require("./push")
 
 // 读取环境变量
-const sckey = formatString(process.env.PUSH_KEY),
-  cookies = formatString(process.env.JDCOOKIES)
+const cookies = formatString(process.env.JDCOOKIES)
 
 //文件路径配置
 const scriptPath = "./script.js",
   resultPath = "./result.txt"
 
-//https.request 配置参数
-const getOptions = {
-  hostname: "raw.githubusercontent.com",
-  port: 443,
-  path: "/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js",
-  method: "GET",
-}
-
 // 格式化用户输入
 function formatString(string) {
   return string.replace(/\s/g, "")
+}
+
+async function getScript() {
+  return axios.get(
+    "https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js"
+  )
 }
 
 // 写入cookie
@@ -55,18 +53,13 @@ async function writeCookie(data) {
 }
 
 //执行签到, 并输出log为文件
-function execScript() {
-  execSync(`node '${scriptPath}' >> '${resultPath}'`)
+async function execScript() {
+  await execSync(`node '${scriptPath}' >> '${resultPath}'`)
   console.log("执行并输出log为文件成功")
 }
 
 //server酱推送
 async function sendNotify() {
-  if (!sckey) {
-    console.log("未配置server酱key,任务结束")
-    return
-  }
-
   const result = await fs
     .readFile(resultPath, { encoding: "utf-8" })
     .catch((e) => {
@@ -78,64 +71,14 @@ async function sendNotify() {
     : result.match(/(?<=【账号总计】:)\d*/)
     ? "签到成功，共获得" + result.match(/(?<=【账号总计】:)\d*/) + "京豆"
     : "签到失败，请查看GitHub Actions日志"
-
-  const postData = `${encodeURI("title")}=${encodeURI(title)}&${encodeURI(
-    "desp"
-  )}=${encodeURI(result)}`
-  const postOptions = {
-    hostname: "sctapi.ftqq.com",
-    path: `/${sckey}.send`,
-    port: 443,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Content-Length": postData.length,
-    },
-  }
-
-  httpsRequest(postOptions, postData).then(
-    () => {
-      console.log("推送消息发送成功")
-    },
-    (err) => {
-      console.log("推送消息发送失败, 错误为->", err)
-    }
-  )
+  await server({ title })
 }
 
-//https.request 封装
-function httpsRequest(params, postData) {
-  return new Promise(function (resolve, reject) {
-    const req = https.request(params, function (res) {
-      if (res.statusCode < 200 || res.statusCode >= 300) {
-        return reject(new Error("statusCode=" + res.statusCode))
-      }
-      let body = []
-      res.on("data", function (chunk) {
-        body.push(chunk)
-      })
-      res.on("end", function () {
-        try {
-          body = Buffer.concat(body).toString()
-        } catch (e) {
-          reject(e)
-        }
-        resolve(body)
-      })
-    })
-    req.on("error", function (err) {
-      reject(err)
-    })
-    if (postData) {
-      req.write(postData)
-    }
-    req.end()
-  })
+async function main() {
+  const data = (await getScript())?.data?.data
+  await writeCookie(data)
+  await execScript()
+  await sendNotify()
 }
 
-httpsRequest(getOptions)
-  .then(writeCookie, (err) => {
-    console.log("脚本下载失败, 错误为->", err)
-  })
-  .then(execScript)
-  .then(sendNotify)
+main()
