@@ -1,32 +1,20 @@
-const fs = require("fs").promises,
-  axios = require("axios"),
-  { execSync } = require("child_process"),
-  server = require("./push")
+const fs = require("fs")
+const exec = require("child_process").execSync
+const server = require("./push")
+const download = require("download")
 
 // 读取环境变量
-const cookies = formatString(process.env.JDCOOKIES)
+const cookies = process.env.JDCOOKIES
 
-//文件路径配置
-const scriptPath = "./script.js",
-  resultPath = "./result.txt"
-
-// 格式化用户输入
-function formatString(string) {
-  return string.replace(/\s/g, "")
-}
-
-async function getScript() {
-  return axios.get(
+async function downFile() {
+  const url =
     "https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js"
-  )
+  await download(url, "./")
 }
 
 // 写入cookie
-async function writeCookie(data) {
-  if (data) {
-    console.log("脚本下载成功")
-  }
-
+async function changeFile() {
+  let content = fs.readFileSync("./JD_DailyBonus.js", "utf8")
   if (cookies) {
     let cookieStr = ""
     cookieStr = JSON.stringify(
@@ -41,43 +29,36 @@ async function writeCookie(data) {
         return obj
       })
     )
-    data = data.replace(/var OtherKey = ``/, `var OtherKey = \`${cookieStr}\``)
+    content = content.replace(
+      /var OtherKey = ``/,
+      `var OtherKey = \`${cookieStr}\``
+    )
   } else {
     throw new Error("未配置cookie")
   }
-
-  await fs.writeFile(scriptPath, data).catch((e) => {
-    throw new Error("写入cookie到脚本失败")
-  })
-  console.log("写入cookie到脚本成功")
-}
-
-//执行签到, 并输出log为文件
-async function execScript() {
-  await execSync(`node '${scriptPath}' >> '${resultPath}'`)
-  console.log("执行并输出log为文件成功")
+  await fs.writeFileSync("./JD_DailyBonus.js", content, "utf8")
 }
 
 //server酱推送
 async function sendNotify() {
-  const result = await fs
-    .readFile(resultPath, { encoding: "utf-8" })
-    .catch((e) => {
-      throw new Error("读取签到结果失败")
-    })
-
+  const result = fs.readFileSync("./result.txt", "utf8")
   const title = result.match(/Cookie失效/)
     ? "京东cookie失效，请更新"
-    : result.match(/(?<=【账号总计】:)\d*/)
-    ? "签到成功，共获得" + result.match(/(?<=【账号总计】:)\d*/) + "京豆"
+    : result.match(/(?<=【账号总计】:).*\d*/g)
+    ? "签到成功，共获得" + result.match(/(?<=【账号总计】:).*\d*/g)
     : "签到失败，请查看GitHub Actions日志"
+  console.log(title)
   await server({ title })
 }
 
 async function main() {
-  const data = (await getScript())?.data?.data
-  await writeCookie(data)
-  await execScript()
+  await downFile()
+  console.log("下载代码完毕")
+  await changeFile()
+  console.log("替换变量完毕")
+  // 执行
+  await exec("node JD_DailyBonus.js >> result.txt")
+  console.log("执行完毕")
   await sendNotify()
 }
 
