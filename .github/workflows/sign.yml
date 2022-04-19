@@ -23,7 +23,7 @@ jobs:
       # - name: glados-sign
       #   run: node glados.js
       - name: jd-sign
-        run: node jd-auto.js
+        run: node jd.js
         env:
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           USERNAME: ${{ secrets.USERNAME }}
