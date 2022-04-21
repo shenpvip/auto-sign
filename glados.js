@@ -26,7 +26,7 @@ const getStatus = async (cookie) => {
 
 const checkInAndGetStatus = async (cookie) => {
   const checkInMessage = (await checkIn(cookie))?.data?.message
-
+  console.log(checkInMessage)
   const userStatus = (await getStatus(cookie))?.data?.data
   const email = userStatus?.email
   const leftDays = parseInt(userStatus?.leftDays)
@@ -57,11 +57,11 @@ const pushMsg = (infos) => {
 const GLaDOSCheckIn = async () => {
   try {
     const cookies = process.env.COOKIES?.split("&&") ?? []
-
+    console.log(cookies,'cookies')
     const infos = await Promise.all(
       cookies.map(async (cookie) => await checkInAndGetStatus(cookie))
     )
-    console.log(infos)
+    console.log(infos,'infos')
 
     if (infos.length) {
       pushMsg(infos)
