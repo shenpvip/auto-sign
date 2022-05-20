@@ -23,8 +23,6 @@ jobs:
         run: npm install
       - name: sakura-sign
         run: node sakura.js
-      - name: glados-sign
-        run: node glados.js
       - name: jd-sign
         run: node jd.js
         
