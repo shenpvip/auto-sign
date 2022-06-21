@@ -7,3 +7,7 @@
   var CookieValue = CV.match(/pt_pin=.+?;/) + CV.match(/pt_key=.+?;/);
   copy(CookieValue);
 ```
+
+### cookies格式
+
+`pt_pin=sp396635614;pt_key=***;`
