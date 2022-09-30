@@ -82,7 +82,7 @@ async function main() {
       }
     } else {
       console.log("今日已签到!")
-      title = "今日已签到,"
+      title = "sakura今日已签到,"
     }
   } catch (error) {
     errorHandler("获取签到信息失败!", error)
