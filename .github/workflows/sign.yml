@@ -11,7 +11,7 @@ jobs:
   auto-sign:
     runs-on: ubuntu-latest
     env:
-      COOKIES: ${{ secrets.SMZDM_COOKIE }}
+      SMZDM_COOKIE: ${{ secrets.SMZDM_COOKIE }}
       JDCOOKIES: ${{ secrets.JDCOOKIES }}
     steps:
       - uses: actions/checkout@v3
