@@ -11,7 +11,7 @@ jobs:
   auto-sign:
     runs-on: ubuntu-latest
     env:
-      COOKIES: ${{ secrets.COOKIES }}
+      COOKIES: ${{ secrets.SMZDM_COOKIE }}
       JDCOOKIES: ${{ secrets.JDCOOKIES }}
     steps:
       - uses: actions/checkout@v3
@@ -22,7 +22,9 @@ jobs:
       - name: install Dependencies
         run: npm install
       - name: sakura-sign
-        run: node sakura.js
+        run: node script/sakura.js
       - name: jd-sign
-        run: node jd.js
+        run: node script/jd.js
+      - name: smzdm-sign
+        run: node script/smzdm.js
         

@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer")
-const config = require("./config.json")
-const server = require("./push")
+const config = require("../config.json")
+const server = require("../utils/push")
 
 function errorHandler(tips, error) {
   console.log(tips)

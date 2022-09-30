@@ -1,6 +1,6 @@
 const fs = require("fs")
 const exec = require("child_process").execSync
-const server = require("./push")
+const server = require("../utils/push")
 const download = require("download")
 
 // 读取环境变量
