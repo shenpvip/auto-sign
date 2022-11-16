@@ -23,8 +23,4 @@ jobs:
         run: npm install
       - name: sakura-sign
         run: node script/sakura.js
-      - name: jd-sign
-        run: node script/jd.js
-      - name: smzdm-sign
-        run: node script/smzdm.js
         
