@@ -5,10 +5,8 @@ on:
   #定时每天九点半
   schedule:
     - cron: 30 1 * * *
-
 env:
   COOKIES: ${{ secrets.COOKIES }}
-
 jobs:
   CheckIn:
     runs-on: ubuntu-latest
