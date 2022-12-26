@@ -405,23 +405,16 @@ ${this.history.length ? `\n游戏记录\n${gameLives}` : ""}
 
 async function run(args) {
   const cookies = process.env.COOKIES;
-  const messageList = [];
-  for (let cookie of cookies) {
-    const seaGold = new Seagold(cookie);
+  const seaGold = new Seagold(cookie);
 
-    await utils.wait(utils.randomRangeNumber(3000, 5000)); // 初始等待3-5s
-    await seaGold.run();
+  await utils.wait(utils.randomRangeNumber(3000, 5000)); // 初始等待3-5s
+  await seaGold.run();
 
-    const content = seaGold.toString();
-    console.log(content);
-
-    messageList.push(content);
-  }
-
-  const message = messageList.join(`\n${"-".repeat(15)}\n`);
+  const content = seaGold.toString();
+  console.log(content);
   pushMessage({
     title: "海底掘金游戏",
-    desp: message
+    desp: content
   });
 }
 
