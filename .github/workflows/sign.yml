@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: setup Node.js
-      - uses: actions/setup-node@v3
+        uses: actions/setup-node@v3
         with:
           node-version: "14.x"
       - name: install Dependencies
@@ -26,7 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: setup Node.js
-      - uses: actions/setup-node@v3
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14.x"
       - name: install Dependencies
         run: npm install
       - name: juejin-seagold
