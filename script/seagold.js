@@ -404,7 +404,7 @@ ${this.history.length ? `\n游戏记录\n${gameLives}` : ""}
 }
 
 async function run(args) {
-  const cookies = utils.getUsersCookie(process.env);
+  const cookies = [process.env.COOKIES];
   const messageList = [];
   for (let cookie of cookies) {
     const seaGold = new Seagold(cookie);

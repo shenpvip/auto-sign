@@ -200,7 +200,7 @@ ${this.lotteryCount > 0 ? "==============\n" + drawLotteryHistory + "\n=========
 }
 
 async function run(args) {
-  const cookies = utils.getUsersCookie(process.env);
+  const cookies = [process.env.COOKIES];
   let messageList = [];
   for (let cookie of cookies) {
     const checkin = new CheckIn(cookie);
