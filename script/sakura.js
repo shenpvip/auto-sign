@@ -4,7 +4,7 @@ const server = require("../utils/push")
 
 function errorHandler(tips, error) {
   console.log(tips)
-  server({ title: tips, content: error })
+  server({ title: tips, desp: error })
 }
 
 async function main() {

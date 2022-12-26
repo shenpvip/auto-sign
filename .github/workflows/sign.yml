@@ -2,17 +2,16 @@ name: auto-sign
 on:
   #手动触发
   workflow_dispatch:
-  push:
-    branches: [main]
   #定时每天九点半
   schedule:
     - cron: 30 1 * * *
+
+env:
+  COOKIES: ${{ secrets.COOKIES }}
+
 jobs:
-  auto-sign:
+  CheckIn:
     runs-on: ubuntu-latest
-    env:
-      SMZDM_COOKIE: ${{ secrets.SMZDM_COOKIE }}
-      JDCOOKIES: ${{ secrets.JDCOOKIES }}
     steps:
       - uses: actions/checkout@v3
       - name: setup Node.js
@@ -21,6 +20,19 @@ jobs:
           node-version: "14.x"
       - name: install Dependencies
         run: npm install
-      - name: sakura-sign
-        run: node script/sakura.js
+      - name: juejin-checkin
+        run: node script/checkin.js
+  SeaGold:
+    needs: CheckIn
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup Node.js
+      - uses: actions/setup-node@v3
+      with:
+          node-version: "14.x"
+      - name: install Dependencies
+        run: npm install
+      - name: juejin-seagold
+        run: node script/seagold.js
         

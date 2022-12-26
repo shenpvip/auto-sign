@@ -26,9 +26,9 @@ async function checkIn() {
     console.log(res.data)
     const { error_code, error_msg, data } = res.data
     if (error_code === 0) {
-        server({ title: '什么值得买签到成功', content: data.slogan })
+        server({ title: '什么值得买签到成功', desp: data.slogan })
     }else{
-        server({ title: '什么值得买签到失败', content: error_msg })
+        server({ title: '什么值得买签到失败', desp: error_msg })
     }
 }
 
