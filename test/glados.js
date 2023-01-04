@@ -1,5 +1,6 @@
 const axios = require("axios")
-const server = require("./push")
+const server = require("../utils/push")
+const schedule = require("node-schedule")
 
 const checkIn = async (cookie) => {
   return axios({
@@ -9,7 +10,7 @@ const checkIn = async (cookie) => {
       Cookie: cookie,
     },
     data: {
-      token: "glados_network",
+      token: "glados.network",
     },
   })
 }
@@ -43,8 +44,8 @@ const pushMsg = (infos) => {
   const titleLeftDays = infos?.[0]["天数"]
   const titleCheckInMessage = infos?.[0]["签到情况"]
 
-  const title = 
-   `- 账号:${titleEmail}\n
+  const title =
+    `- 账号:${titleEmail}\n
     - 天数: ${titleLeftDays}\n
     - 签到情况:${titleCheckInMessage}`
 
@@ -56,12 +57,12 @@ const pushMsg = (infos) => {
 
 const GLaDOSCheckIn = async () => {
   try {
-    const cookies = process.env.COOKIES?.split("&&") ?? []
-    console.log(cookies,'cookies')
+    // const cookies = process.env.COOKIES?.split("&&") ?? []
+    const cookies = ['_ga=GA1.2.1088860688.1657506097; koa:sess=eyJjb2RlIjoiM0RJVkQtWUo4VFAtSklETEUtWE9FUk4iLCJ1c2VySWQiOjE1MDY0NiwiX2V4cGlyZSI6MTY5NzQ0MzE0MDY0NiwiX21heEFnZSI6MjU5MjAwMDAwMDB9; koa:sess.sig=g5JGebonvnS6TdBBqp07ra_bhE0; _gid=GA1.2.1394727825.1672714920; _gat_gtag_UA_104464600_2=1']
     const infos = await Promise.all(
       cookies.map(async (cookie) => await checkInAndGetStatus(cookie))
     )
-    console.log(infos,'infos')
+    console.log(infos, 'infos')
 
     if (infos.length) {
       pushMsg(infos)
@@ -71,4 +72,6 @@ const GLaDOSCheckIn = async () => {
   }
 }
 
-GLaDOSCheckIn()
+schedule.scheduleJob("30 1 * * *", function () {
+  GLaDOSCheckIn()
+})
