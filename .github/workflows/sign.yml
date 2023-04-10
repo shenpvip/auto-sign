@@ -20,17 +20,17 @@ jobs:
         run: npm install
       - name: juejin-checkin
         run: node script/checkin.js
-  SeaGold:
-    needs: CheckIn
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "14.x"
-      - name: install Dependencies
-        run: npm install
-      - name: juejin-seagold
-        run: node script/seagold.js
+#   SeaGold:
+#     needs: CheckIn
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "14.x"
+#       - name: install Dependencies
+#         run: npm install
+#       - name: juejin-seagold
+#         run: node script/seagold.js
         
