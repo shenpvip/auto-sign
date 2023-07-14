@@ -12,7 +12,7 @@
     "axios": "^0.26.1",
     "download": "^8.0.0",
     "fast-astar": "^1.0.6",
-    "juejin-helper": "^1.6.1",
+    "juejin-helper": "^1.7.3",
     "node-schedule": "^2.1.0",
     "puppeteer": "^13.5.2",
     "request": "^2.88.2"
