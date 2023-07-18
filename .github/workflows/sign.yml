@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   #定时每天九点半
   schedule:
-    - cron: 30 1 * * *
+    - cron: 30 23 * * *
 env:
   COOKIES: ${{ secrets.COOKIES }}
 jobs:
