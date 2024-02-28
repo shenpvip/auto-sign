@@ -10,4 +10,4 @@
 
 ### cookies格式
 
-`pt_pin=sp396635614;pt_key=***;`
+`pt_pin=***;pt_key=***;`
