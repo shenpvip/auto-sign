@@ -4,7 +4,7 @@ const server = require("../utils/push")
 
 function errorHandler(tips, error) {
   console.log(tips)
-  server({ title: tips, desp: error || '' })
+  server({ title: tips, desp: error ? error : "" })
 }
 
 async function main() {
@@ -20,8 +20,8 @@ async function main() {
     await page.waitForTimeout(3000)
     const userNameInput = await page.$("#login-account-name")
     const passWordInput = await page.$("#login-account-password")
-    await userNameInput.type(config.userName, { delay: 100 })
-    await passWordInput.type(config.passWord, { delay: 100 })
+    await userNameInput.type(config.linuxdo.userName, { delay: 100 })
+    await passWordInput.type(config.linuxdo.passWord, { delay: 100 })
     await page.click("#login-button")
     console.log("填写表单登陆")
     await page.waitForTimeout(6000)
