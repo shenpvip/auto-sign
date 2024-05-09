@@ -15,7 +15,7 @@ async function delayTime(ms) {
 }
 
 ;(async () => {
-  const browser = await puppeteer.launch({ headless: false })
+  const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
   let url = `https://panel3.serv00.com/login/?next=/`
@@ -32,8 +32,8 @@ async function delayTime(ms) {
     }
 
     // 输入实际的账号和密码
-    await page.type("#id_username", config.serv00.username)
-    await page.type("#id_password", config.serv00.password)
+    await page.type("#id_username", config.serv00.userName)
+    await page.type("#id_password", config.serv00.passWord)
 
     // 提交登录表单
     const loginButton = await page.$("#submit")
@@ -59,16 +59,18 @@ async function delayTime(ms) {
         new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
       ) // 北京时间东8区，用算术来搞
       console.log(
-        `账号 ${username} 于北京时间 ${nowBeijing}（UTC时间 ${nowUtc}）登录成功！`
+        `账号 ${config.serv00.userName} 于北京时间 ${nowBeijing}（UTC时间 ${nowUtc}）登录成功！`
       )
-      server({ title: "serv00登录成功" })
+      server({ title: "serv00登录成功", desp: config.serv00.userName })
     } else {
-      console.error(`账号 ${username} 登录失败，请检查账号和密码是否正确。`)
-      server({ title: "serv00登录失败" })
+      console.error(
+        `账号 ${config.serv00.userName} 登录失败，请检查账号和密码是否正确。`
+      )
+      server({ title: "serv00登录失败", desp: config.serv00.userName })
     }
   } catch (error) {
-    server({ title: "serv00登录失败" })
-    console.error(`账号 ${username} 登录时出现错误: ${error}`)
+    server({ title: "serv00登录失败", desp: config.serv00.userName })
+    console.error(`账号 ${config.serv00.userName} 登录时出现错误: ${error}`)
   } finally {
     // 关闭页面和浏览器
     await page.close()

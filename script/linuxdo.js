@@ -4,7 +4,7 @@ const server = require("../utils/push")
 
 function errorHandler(tips, error) {
   console.log(tips)
-  server({ title: tips, desp: error ? error : "" })
+  server({ title: tips, desp: error })
 }
 
 async function main() {
@@ -39,7 +39,7 @@ async function main() {
     await browser.close()
     return
   }
-  await server({ title })
+  await server({ title, desp: config.linuxdo.userName })
   browser.close()
 }
 
