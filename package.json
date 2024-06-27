@@ -11,7 +11,6 @@
   "dependencies": {
     "axios": "^0.26.1",
     "download": "^8.0.0",
-    "fast-astar": "^1.0.6",
     "juejin-helper": "^1.7.2",
     "node-schedule": "^2.1.0",
     "puppeteer": "^13.7.0",

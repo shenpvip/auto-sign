@@ -3,7 +3,6 @@ lockfileVersion: 5.4
 specifiers:
   axios: ^0.26.1
   download: ^8.0.0
-  fast-astar: ^1.0.6
   juejin-helper: ^1.7.2
   node-schedule: ^2.1.0
   puppeteer: ^13.7.0
@@ -12,7 +11,6 @@ specifiers:
 dependencies:
   axios: 0.26.1
   download: 8.0.0
-  fast-astar: 1.0.6
   juejin-helper: 1.7.2
   node-schedule: 2.1.1
   puppeteer: 13.7.0
@@ -577,10 +575,6 @@ packages:
   /extsprintf/1.3.0:
     resolution: {integrity: sha512-11Ndz7Nv+mvAC1j0ktTa7fAb0vLyGGX+rMHNBYQviQDGU0Hw7lhctJANqbPhu9nV9/izT/IntTgZ7Im/9LJs9g==}
     engines: {'0': node >=0.6.0}
-    dev: false
-
-  /fast-astar/1.0.6:
-    resolution: {integrity: sha512-r23aD+DIl2Y/XdhP/Z3kDyi9dJ4BID6z49gjc+lQo1fLBqi9uEkaevcX4v0bqHGxjwc7GKbt/OPRM/UwTCfiEw==}
     dev: false
 
   /fast-deep-equal/3.1.3:
