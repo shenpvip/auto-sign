@@ -2,12 +2,20 @@ const config = require("../config.json")
 const axios = require("axios")
 
 function server(content) {
-  const params = new URLSearchParams()
-  params.append("spt", config.pushToken)
-  params.append("summary", content.title)
-  params.append("content", content.desp)
   axios
-    .post("https://wxpusher.zjiecode.com/api/send/message/simple-push", params)
+    .post(
+      "https://wxpusher.zjiecode.com/api/send/message/simple-push",
+      {
+        content: content.desp,
+        summary: content.title,
+        spt: config.pushToken,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
     .then(() => {
       console.log("推送成功")
     })
