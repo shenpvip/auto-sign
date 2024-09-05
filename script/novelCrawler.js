@@ -1,15 +1,17 @@
 const puppeteer = require("puppeteer")
 const fs = require("fs")
+const path = require("path")
 
 // 获取所有章节的url
 async function getCharterUrlList() {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
-  const baseUrl = "https://m.xwbxsw1.com/html/351/351450"
+  const baseUrl = "https://m.xwbxsw1.com/html/316/316409"
   let pageNumber = 1
   let hasNextPage = true
   const urlList = []
+  let title = ""
 
   while (hasNextPage) {
     // 构建当前页的URL
@@ -23,6 +25,7 @@ async function getCharterUrlList() {
     })
     if (pageNumber === 1) {
       hrefs = hrefs.splice(5)
+      title = await page.$eval("#bqgmb_h1", (element) => element.innerText)
     }
     hrefs = hrefs.flatMap((url) => {
       let index = url.length - 5 // 倒数第5个位置的索引
@@ -33,29 +36,32 @@ async function getCharterUrlList() {
     urlList.push(...hrefs)
 
     // 检查是否存在下一页
-    hasNextPage = await page.evaluate(() => {
-      const nextButton = document.querySelector("span.right a")
-      return nextButton.href !== "javascript:void(0);"
-    })
+    // hasNextPage = await page.evaluate(() => {
+    //   const nextButton = document.querySelector("span.right a")
+    //   return nextButton.href !== "javascript:void(0);"
+    // })
+    hasNextPage = false
     pageNumber++
   }
   await browser.close()
-  fs.writeFileSync("links.txt", urlList.join("\n"), "utf-8")
-  return urlList
+  return { urlList, title }
 }
 
 async function main() {
-  const urls = await getCharterUrlList()
+  const { urlList, title } = await getCharterUrlList()
   // 打开文件写入流
-  const writeStream = fs.createWriteStream("我被骗去缅北那些年.txt", {
-    flags: "a",
-  })
+  const writeStream = fs.createWriteStream(
+    path.join(__dirname, `../txt/${title}.txt`),
+    {
+      flags: "a",
+    }
+  )
   // 启动 Puppeteer 浏览器
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
   // 遍历每个页面进行抓取
-  for (const url of urls) {
+  for (const url of urlList) {
     try {
       // 导航到当前页面
       await page.goto(url, { waitUntil: "networkidle2" })
