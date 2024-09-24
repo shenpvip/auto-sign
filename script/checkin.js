@@ -357,14 +357,14 @@ async function run(args) {
 
   const message = messageList.join(`\n${"-".repeat(15)}\n`)
   pushMessage({
-    title: "掘金每日签到",
+    title: "掘金-" + message,
     desp: message,
   })
 }
 
 run(process.argv.splice(2)).catch((error) => {
   pushMessage({
-    title: "掘金每日签到",
+    title: "掘金-" + error.message,
     desp: `<strong>Error</strong><pre>${error.message}</pre>`,
   })
 

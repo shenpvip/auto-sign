@@ -28,10 +28,10 @@ async function main() {
     const loginElement = await page.$("#current-user")
     if (loginElement) {
       console.log("登录成功！")
-      title = "登录成功！"
+      title = "linuxdo登录成功！"
     } else {
       console.log("登录失败!")
-      title = "登录失败!"
+      title = "linuxdo登录失败!"
     }
   } catch (error) {
     console.log(error)
