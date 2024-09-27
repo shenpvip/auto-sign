@@ -16,7 +16,7 @@ async function getInfo(url) {
 
   await page.goto(url, { waitUntil: "networkidle2" })
 
-  const title = await page.$eval(
+  let title = await page.$eval(
     "#viewbox_report .video-title",
     (element) => element.innerText
   )
@@ -26,7 +26,8 @@ async function getInfo(url) {
     (element) => element.innerText
   )
   // 要检查和创建的文件夹路径
-  basePath = path.join(exePath, title) // 修改为你需要的文件夹路径
+  title = title.replace(/[<>:"/\\|?*]/g, "_")
+  basePath = path.join(exePath, title)
   // 检查文件夹是否存在
   if (!fs.existsSync(basePath)) {
     try {
@@ -34,7 +35,7 @@ async function getInfo(url) {
       fs.mkdirSync(basePath, { recursive: true })
       console.log("文件夹已创建:", basePath)
     } catch (error) {
-      console.error("创建文件夹时出错:", error.message)
+      console.error("创建文件夹时出错:", error)
     }
   } else {
     console.log("文件夹已存在:", basePath)
@@ -116,6 +117,7 @@ async function downloadImage(url, title) {
     })
   } catch (error) {
     console.error("下载图片时出错:", error.message)
+    return
   }
 }
 
@@ -126,7 +128,8 @@ async function saveDesp(textContent, title) {
     fs.writeFileSync(outputPath, textContent, "utf8") // 'utf8' 指定编码格式
     console.log("描述保存成功")
   } catch (error) {
-    console.error("写入文件时出错:", err.message)
+    console.error("写入文件时出错:", error.message)
+    return
   }
 }
 
