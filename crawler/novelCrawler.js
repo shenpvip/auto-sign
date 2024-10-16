@@ -49,13 +49,23 @@ async function getCharterUrlList() {
 
 async function main() {
   const { urlList, title } = await getCharterUrlList()
-  // 打开文件写入流
-  const writeStream = fs.createWriteStream(
-    path.join(__dirname, `../txt/${title}.txt`),
-    {
-      flags: "a",
+  const filePath = path.join(__dirname, `../txt`)
+  // 检查文件夹是否存在
+  if (!fs.existsSync(filePath)) {
+    try {
+      // 创建文件夹，递归模式确保所有上级目录也会被创建（如果必要）
+      fs.mkdirSync(filePath, { recursive: true })
+      console.log("文件夹已创建:", filePath)
+    } catch (error) {
+      console.error("创建文件夹时出错:", error)
     }
-  )
+  } else {
+    console.log("文件夹已存在:", filePath)
+  }
+  // 打开文件写入流
+  const writeStream = fs.createWriteStream(filePath + `/${title}.txt`, {
+    flags: "a",
+  })
   // 启动 Puppeteer 浏览器
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
