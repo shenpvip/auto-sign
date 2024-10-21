@@ -11,9 +11,16 @@
   "dependencies": {
     "axios": "^0.26.1",
     "download": "^8.0.0",
+    "http-proxy-agent": "^7.0.2",
     "juejin-helper": "^1.7.2",
     "node-schedule": "^2.1.0",
-    "puppeteer": "^13.7.0",
-    "request": "^2.88.2"
+    "puppeteer": "^23.5.3"
+  },
+  "devDependencies": {
+    "exceljs": "^4.4.0",
+    "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

@@ -1,5 +1,5 @@
 const JuejinHelper = require("juejin-helper")
-const utils = require("../utils/utils")
+const { waitForTimeout } = require("../utils/utils")
 // const config = require("../config.json")
 const pushMessage = require("../utils/push")
 
@@ -128,7 +128,7 @@ class LotteriesTask extends Task {
       dipLuckyTask.luckyValue = result.total_lucky_value
       freeCount--
       this.lotteryCount++
-      await utils.wait(utils.randomRangeNumber(300, 1000))
+      await waitForTimeout(300, 1000)
     }
 
     growthTask.sumPoint = await growth.getCurrentPoint()
@@ -223,14 +223,14 @@ class MockVisitTask extends Task {
       } catch (e) {
         console.log("掘金首页：页面访问失败")
       }
-      await utils.wait(utils.randomRangeNumber(2000, 5000))
+      await waitForTimeout(2000, 5000)
       try {
         await browser.visitPage("/user/center/signin")
         console.log("掘金每日签到：页面访问成功")
       } catch (e) {
         console.log("掘金每日签到：页面访问失败")
       }
-      await utils.wait(utils.randomRangeNumber(2000, 5000))
+      await waitForTimeout(2000, 5000)
       await browser.close()
     } catch {
       console.log("浏览器API异常")
@@ -346,7 +346,7 @@ async function run(args) {
   for (let cookie of cookies) {
     const checkin = new CheckIn(cookie)
 
-    await utils.wait(utils.randomRangeNumber(1000, 5000)) // 初始等待1-5s
+    await waitForTimeout(1000, 5000) // 初始等待1-5s
     await checkin.run() // 执行
 
     const content = checkin.toString()

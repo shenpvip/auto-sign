@@ -4,7 +4,16 @@ const path = require("path")
 
 // 获取所有章节的url
 async function getCharterUrlList() {
-  const browser = await puppeteer.launch()
+  /**
+   * 本地测试说明
+   * headless - 打开浏览器试图
+   * executablePath - 浏览器所在路径
+   */
+  const browser = await puppeteer.launch({
+    // headless: false,
+    // executablePath:
+    //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  })
   const page = await browser.newPage()
 
   const baseUrl = "https://m.xwbxsw1.com/html/316/316409"

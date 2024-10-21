@@ -1,7 +1,6 @@
 const puppeteer = require("puppeteer")
 const config = require("../config.json")
 const server = require("../utils/push")
-
 function formatToISO(date) {
   return date
     .toISOString()
@@ -10,19 +9,18 @@ function formatToISO(date) {
     .replace(/\.\d{3}Z/, "")
 }
 
-async function delayTime(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 ;(async () => {
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    // executablePath:
+    //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  })
   const page = await browser.newPage()
 
   let url = `https://panel3.serv00.com/login/?next=/`
 
   try {
     // 修改网址为新的登录页面
-    await page.goto(url)
+    await page.goto(url, { waitUntil: "networkidle2" })
 
     // 清空用户名输入框的原有值
     const usernameInput = await page.$("#id_username")
@@ -40,6 +38,7 @@ async function delayTime(ms) {
     if (loginButton) {
       await loginButton.click()
     } else {
+      server({ title: "serv00登录失败", desp: config.serv00.userName })
       throw new Error("无法找到登录按钮")
     }
 
@@ -61,7 +60,6 @@ async function delayTime(ms) {
       console.log(
         `账号 ${config.serv00.userName} 于北京时间 ${nowBeijing}（UTC时间 ${nowUtc}）登录成功！`
       )
-      server({ title: "serv00登录成功", desp: config.serv00.userName })
     } else {
       console.error(
         `账号 ${config.serv00.userName} 登录失败，请检查账号和密码是否正确。`
@@ -75,14 +73,5 @@ async function delayTime(ms) {
     // 关闭页面和浏览器
     await page.close()
     await browser.close()
-
-    // 用户之间添加随机延时
-    const delay = Math.floor(Math.random() * 8000) + 1000 // 随机延时1秒到8秒之间
-    await delayTime(delay)
   }
 })()
-
-// 自定义延时函数
-function delayTime(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
