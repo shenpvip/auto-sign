@@ -13,14 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
       - name: install Dependencies
         run: npm install
-      - name: juejin-checkin
-        run: node script/checkin.js
       - name: linuxdo
         run: node script/linuxdo.js
       - name: serv00
         run: node script/serv00.js
+  JueJin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        run: |
+          npm install
+          cd script
+          node checkin.js
