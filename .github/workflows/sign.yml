@@ -27,8 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - run: |
-          npm install  # 安装依赖
-      - run: |
-          cd script
-          node checkin.js  # 执行脚本
+        with:
+          node-version: "14.x" # 可根据需要调整 Node.js 版本
+      - name: install Dependencies
+        run: npm install
+      - name: juejin
+        run: node script/checkin.js
