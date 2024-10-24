@@ -27,7 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        run: |
-          npm install
+      - run: |
+          npm install  # 安装依赖
+      - run: |
           cd script
-          node checkin.js
+          node checkin.js  # 执行脚本
