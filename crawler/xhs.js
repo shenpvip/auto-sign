@@ -1,6 +1,5 @@
-const puppeteer = require("puppeteer")
 const ExcelJS = require("exceljs")
-const { waitForTimeout } = require("../utils/utils")
+const { waitForTimeout, pageInstance } = require("../utils/utils")
 
 async function getData(page) {
   await page.waitForSelector("div.feeds-container")
@@ -28,30 +27,10 @@ async function getData(page) {
 
 async function main() {
   const searchContent = "待产包孕妇必备清单3月份"
-  /**
-   * 本地测试说明
-   * headless - 打开浏览器试图
-   * executablePath - 浏览器所在路径
-   */
-  const browser = await puppeteer.launch({
-    headless: false,
-    executablePath:
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  const page = await pageInstance()
+  await page.goto("https://www.xiaohongshu.com/", {
+    waitUntil: "networkidle2",
   })
-  const page = await browser.newPage()
-  await page.setViewport({
-    width: 1280,
-    height: 800,
-  })
-  await page.setExtraHTTPHeaders({
-    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-    "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36",
-  })
-
-  await page.goto("https://www.xiaohongshu.com/", { waitUntil: "networkidle2" })
-  console.log("等待用户过验证...")
-  await page.waitForSelector("#search-input")
   console.log("等待用户登录...")
   await page.waitForSelector("li.user")
   await waitForTimeout(1000, 3000) // 随机等待 0.5 到 2.5 秒
