@@ -2,25 +2,32 @@
   "name": "auto-sign",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "bin": "./server/power-mange.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:power": "pkg ."
+  },
+  "pkg": {
+    "scripts": "./server/power-mange.js",
+    "assets": [],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
-    "cors": "^2.8.5",
     "download": "^8.0.0",
-    "express": "^4.21.1",
+    "exceljs": "^4.4.0",
     "http-proxy-agent": "^7.0.2",
     "juejin-helper": "^1.7.2",
+    "node-schedule": "^2.1.1",
+    "pkg": "^5.8.1",
     "puppeteer": "^23.5.3",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "systeminformation": "^5.23.5",
-    "twitter-api-v2": "^1.18.1",
-    "exceljs": "^4.4.0"
+    "systeminformation": "^5.23.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
