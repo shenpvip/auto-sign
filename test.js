@@ -1,4 +1,5 @@
 const data = process.env.ACCOUNTS_JSON
-console.log(data, "data------")
-console.log(data.serv00, "serv00------")
-console.log(data.serv00.userName, "userName------")
+const accounts = JSON.parse(data)
+console.log(accounts, "data------")
+console.log(accounts.serv00, "serv00------")
+console.log(accounts.serv00.userName, "userName------")
