@@ -1,38 +1,17 @@
-name: auto-sign
+name: Deploy
+
 on:
-  #手动触发
   workflow_dispatch:
-  #定时每天九点半
-  schedule:
-    - cron: 30 23 * * *
-env:
-  COOKIES: ${{ secrets.COOKIES }}
-  PUSH_KEY: ${{ secrets.PUSH_KEY }}
-  ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
+
 jobs:
-  CheckIn:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18.x"
-      - name: install Dependencies
-        run: npm install
-      # - name: linuxdo
-      #   run: node script/linuxdo.js
-      - name: serv00
-        run: node script/serv00.js
-  JueJin:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "14.x" # 可根据需要调整 Node.js 版本
-      - name: install Dependencies
-        run: npm install
-      - name: juejin
-        run: node script/checkin.js
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to server
+        env:
+          API_KEY: ${{ secrets.ACCOUNTS_JSON }}
+        run: |
+          echo "Deploying with API_KEY: ${API_KEY}"
