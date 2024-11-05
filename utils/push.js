@@ -1,4 +1,3 @@
-const config = require("../config.json")
 const axios = require("axios")
 
 function server(content) {
@@ -8,7 +7,7 @@ function server(content) {
       {
         content: content.desp,
         summary: content.title,
-        spt: config.pushToken,
+        spt: process.env.PUSH_KEY,
       },
       {
         headers: {

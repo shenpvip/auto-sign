@@ -7,6 +7,8 @@ on:
     - cron: 30 23 * * *
 env:
   COOKIES: ${{ secrets.COOKIES }}
+  PUSH_KEY: ${{ secrets.PUSH_KEY }}
+  ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
 jobs:
   CheckIn:
     runs-on: ubuntu-latest

@@ -26,7 +26,7 @@ async function getData(page) {
 }
 
 async function main() {
-  const searchContent = "待产包孕妇必备清单3月份"
+  const searchContent = ""
   const page = await pageInstance()
   await page.goto("https://www.xiaohongshu.com/", {
     waitUntil: "networkidle2",

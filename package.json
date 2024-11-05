@@ -2,18 +2,7 @@
   "name": "auto-sign",
   "version": "1.0.0",
   "description": "",
-  "bin": "./server/power-mange.js",
-  "scripts": {
-    "build:power": "pkg ."
-  },
-  "pkg": {
-    "scripts": "./server/power-mange.js",
-    "assets": [],
-    "targets": [
-      "node18-win-x64"
-    ],
-    "outputPath": "dist"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {

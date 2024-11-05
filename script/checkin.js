@@ -1,6 +1,5 @@
 const JuejinHelper = require("juejin-helper")
 const { waitForTimeout } = require("../utils/utils")
-// const config = require("../config.json")
 const pushMessage = require("../utils/push")
 
 class Task {
@@ -340,7 +339,6 @@ ${
 }
 
 async function run(args) {
-  // const cookies = [config.JUEJIN_COOKIES]
   const cookies = [process.env.COOKIES]
   let messageList = []
   for (let cookie of cookies) {
