@@ -70,12 +70,18 @@ async function main() {
   await page.waitForSelector("#login-account-name")
   const userNameInput = await page.$("#login-account-name")
   const passWordInput = await page.$("#login-account-password")
-  await userNameInput.type(process.env.ACCOUNTS_JSON.linuxdo.userName, {
-    delay: 100,
-  })
-  await passWordInput.type(process.env.ACCOUNTS_JSON.linuxdo.passWord, {
-    delay: 100,
-  })
+  await userNameInput.type(
+    JSON.parse(process.env.ACCOUNTS_JSON).linuxdo.userName,
+    {
+      delay: 100,
+    }
+  )
+  await passWordInput.type(
+    JSON.parse(process.env.ACCOUNTS_JSON).linuxdo.passWord,
+    {
+      delay: 100,
+    }
+  )
   await page.click("#login-button")
   console.log("填写表单登陆")
   await page.waitForSelector("#current-user")

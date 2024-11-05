@@ -7,8 +7,9 @@ function formatToISO(date) {
     .replace("Z", "")
     .replace(/\.\d{3}Z/, "")
 }
-const userName = process.env.ACCOUNTS_JSON.serv00.userName
-const passWord = process.env.ACCOUNTS_JSON.serv00.passWord
+const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
+const userName = ACCOUNTS_JSON.serv00.userName
+const passWord = ACCOUNTS_JSON.serv00.passWord
 ;(async () => {
   const browser = await puppeteer.launch({
     // executablePath:
