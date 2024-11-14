@@ -1,5 +1,5 @@
-const puppeteer = require("puppeteer")
-const { waitForTimeout } = require("../utils/utils")
+// const puppeteer = require("puppeteer")
+const { waitForTimeout, pageInstance } = require("../utils/utils")
 const server = require("../utils/push")
 
 async function randomClick(page) {
@@ -56,13 +56,17 @@ async function main() {
    * headless - 打开浏览器试图
    * executablePath - 浏览器所在路径
    */
-  const browser = await puppeteer.launch({
-    // headless: false,
-    // executablePath:
-    //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  })
+  // const browser = await puppeteer.launch({
+  // headless: false,
+  // executablePath:
+  //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  // })
 
-  const page = await browser.newPage()
+  // const page = await browser.newPage()
+  const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
+  const userName = ACCOUNTS_JSON.linuxdo.userName
+  const passWord = ACCOUNTS_JSON.linuxdo.passWord
+  const page = await pageInstance()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
   await page.click("button.login-button")
@@ -70,18 +74,12 @@ async function main() {
   await page.waitForSelector("#login-account-name")
   const userNameInput = await page.$("#login-account-name")
   const passWordInput = await page.$("#login-account-password")
-  await userNameInput.type(
-    JSON.parse(process.env.ACCOUNTS_JSON).linuxdo.userName,
-    {
-      delay: 100,
-    }
-  )
-  await passWordInput.type(
-    JSON.parse(process.env.ACCOUNTS_JSON).linuxdo.passWord,
-    {
-      delay: 100,
-    }
-  )
+  await userNameInput.type(userName, {
+    delay: 100,
+  })
+  await passWordInput.type(passWord, {
+    delay: 100,
+  })
   await page.click("#login-button")
   console.log("填写表单登陆")
   await page.waitForSelector("#current-user")

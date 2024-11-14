@@ -52,9 +52,9 @@ module.exports = {
     puppeteer.use(StealthPlugin())
 
     const browser = await puppeteer.launch({
-      headless: false,
-      executablePath:
-        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      // headless: false,
+      // executablePath:
+      //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     })
     const page = await browser.newPage()
     // 获取随机的 User-Agent 和 Headers
