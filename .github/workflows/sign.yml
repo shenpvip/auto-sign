@@ -20,8 +20,8 @@ jobs:
           node-version: "18.x"
       - name: install Dependencies
         run: npm install
-       - name: linuxdo
-         run: node script/linuxdo.js
+      - name: linuxdo
+        run: node script/linuxdo.js
       - name: serv00
         run: node script/serv00.js
   JueJin:
