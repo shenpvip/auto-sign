@@ -27,7 +27,7 @@ async function getData(page) {
 
 async function main() {
   const searchContent = ""
-  const page = await pageInstance()
+  const { browser, page } = await pageInstance()
   await page.goto("https://www.xiaohongshu.com/", {
     waitUntil: "networkidle2",
   })
