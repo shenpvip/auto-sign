@@ -87,18 +87,19 @@ async function main() {
   if (!loginElement) {
     console.log("登录失败!")
   }
-  let count = 0
-  const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
-  console.log(`今日目标浏览${target}次`)
-  while (count < target) {
-    await waitForTimeout(500, 1000)
-    await randomClick(page)
-    await scrollToBottom(page)
-    count++
-    console.log(`已浏览${count}次`)
-    await waitSomeSeconds(page)
-  }
-  console.log("浏览完成")
+  console.log("登录成功")
+  // let count = 0
+  // const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
+  // console.log(`今日目标浏览${target}次`)
+  // while (count < target) {
+  //   await waitForTimeout(500, 1000)
+  //   await randomClick(page)
+  //   await scrollToBottom(page)
+  //   count++
+  //   console.log(`已浏览${count}次`)
+  //   await waitSomeSeconds(page)
+  // }
+  // console.log("浏览完成")
   await browser.close()
 }
 

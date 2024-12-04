@@ -24,6 +24,19 @@ jobs:
         run: node script/linuxdo.js
       - name: serv00
         run: node script/serv00.js
+      - name: pg同步
+        run: node script/asyncFile.js
+      - name: 暂存提交
+        run: |
+          git config --global user.name 'shenpvip'
+          git config --global user.email '396635614@qq.com'
+          export TZ='Asia/Shanghai'
+          git add .
+          git commit -m "update" -a
+      - name: 推送
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
   JueJin:
     runs-on: ubuntu-latest
     steps:
