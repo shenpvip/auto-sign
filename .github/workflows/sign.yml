@@ -30,7 +30,6 @@ jobs:
         run: |
           git config --global user.name 'shenpvip'
           git config --global user.email '396635614@qq.com'
-          export TZ='Asia/Shanghai'
           git add .
           git commit -m "update" -a
       - name: 推送
