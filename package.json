@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "nodemon ./crawler/xhs.js"
+    "dev": "nodemon ./crawler/xhs.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
