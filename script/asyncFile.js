@@ -3,6 +3,31 @@ const fs = require("fs")
 const path = require("path")
 const AdmZip = require("adm-zip")
 
+/**
+ * 解压文件到指定目录
+ * @param {string} zipFilePath - ZIP 文件路径
+ * @param {string} targetDir - 解压的目标目录
+ */
+function extractZipToDir(zipFilePath, targetDir) {
+  try {
+    // 如果目标目录已存在，删除其内容
+    if (fs.existsSync(targetDir)) {
+      console.log(`清空目录：${targetDir}`)
+      fs.rmSync(targetDir, { recursive: true, force: true })
+    }
+
+    // 确保目标目录存在
+    fs.mkdirSync(targetDir, { recursive: true })
+
+    console.log(`解压文件：${zipFilePath} 到目录：${targetDir}`)
+    const zip = new AdmZip(zipFilePath)
+    zip.extractAllTo(targetDir, true) // true 表示覆盖同名文件
+    console.log("解压完成！")
+  } catch (error) {
+    console.error("解压文件时发生错误：", error)
+  }
+}
+
 // 递归下载 GitHub 仓库中符合名称规则的文件
 async function downloadMatchingFilesRecursive(
   repoOwner,
@@ -46,9 +71,7 @@ async function downloadMatchingFilesRecursive(
           console.log(`文件 ${fileName} 下载完成！`)
 
           // 解压 ZIP 文件
-          const zip = new AdmZip(fileName)
-          zip.extractAllTo(path.join(__dirname, "../public/pg"), true)
-          console.log("文件解压完成")
+          extractZipToDir(fileName, path.join(__dirname, "../public/pg"))
 
           // 可选：删除 ZIP 文件
           fs.unlinkSync(fileName)
