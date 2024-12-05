@@ -40,8 +40,6 @@ jobs:
               # 如果没有改动
               echo "没有改动，跳过提交。"
           fi
-          git add .
-          git commit -m "update" -a
       - name: 推送
         uses: ad-m/github-push-action@master
         with:
