@@ -30,6 +30,16 @@ jobs:
         run: |
           git config --global user.name 'shenpvip'
           git config --global user.email '396635614@qq.com'
+          # 检查是否有改动
+          if [[ -n $(git status --porcelain) ]]; then
+              # 如果有改动，则执行添加和提交操作
+              git add .
+              git commit -m "update"
+              echo "改动已提交。"
+          else
+              # 如果没有改动
+              echo "没有改动，跳过提交。"
+          fi
           git add .
           git commit -m "update" -a
       - name: 推送
