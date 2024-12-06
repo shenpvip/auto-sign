@@ -22,8 +22,8 @@ jobs:
         run: npm install
       - name: linuxdo
         run: node script/linuxdo.js
-      - name: serv00
-        run: node script/serv00.js
+      # - name: serv00
+      #   run: node script/serv00.js
       - name: pg同步
         run: node script/asyncFile.js
       - name: 暂存提交
