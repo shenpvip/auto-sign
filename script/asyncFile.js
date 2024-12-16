@@ -11,10 +11,10 @@ const AdmZip = require("adm-zip")
 function extractZipToDir(zipFilePath, targetDir) {
   try {
     // 如果目标目录已存在，删除其内容
-    if (fs.existsSync(targetDir)) {
-      console.log(`清空目录：${targetDir}`)
-      fs.rmSync(targetDir, { recursive: true, force: true })
-    }
+    // if (fs.existsSync(targetDir)) {
+    //   console.log(`清空目录：${targetDir}`)
+    //   fs.rmSync(targetDir, { recursive: true, force: true })
+    // }
 
     // 确保目标目录存在
     fs.mkdirSync(targetDir, { recursive: true })
@@ -51,7 +51,11 @@ async function downloadMatchingFilesRecursive(
     for (let item of response.data) {
       const itemPath = path.join(currentPath, item.name)
 
-      if (item.type === "file" && item.name.includes(pattern)) {
+      if (
+        item.type === "file" &&
+        item.name.includes(pattern) &&
+        item.name.includes(".zip")
+      ) {
         const fileUrl = item.download_url
         const fileName = path.join(saveDir, itemPath)
 
