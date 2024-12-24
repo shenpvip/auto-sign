@@ -1,5 +1,4 @@
 const { waitForTimeout, pageInstance } = require("../utils/utils")
-const puppeteer = require("puppeteer")
 const server = require("../utils/push")
 
 async function randomClick(page) {
@@ -54,13 +53,7 @@ async function main() {
   const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
   const userName = ACCOUNTS_JSON.linuxdo.userName
   const passWord = ACCOUNTS_JSON.linuxdo.passWord
-  // const { page, browser } = await pageInstance()
-  const browser = await puppeteer.launch({
-    // headless: false,
-    // executablePath:
-    //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  })
-  const page = await browser.newPage()
+  const { page, browser } = await pageInstance()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
   await page.click("button.login-button")
