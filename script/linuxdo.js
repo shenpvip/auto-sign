@@ -1,4 +1,5 @@
 const { waitForTimeout, pageInstance } = require("../utils/utils")
+const puppeteer = require("puppeteer")
 const server = require("../utils/push")
 
 async function randomClick(page) {
@@ -53,7 +54,13 @@ async function main() {
   const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
   const userName = ACCOUNTS_JSON.linuxdo.userName
   const passWord = ACCOUNTS_JSON.linuxdo.passWord
-  const { page, browser } = await pageInstance()
+  // const { page, browser } = await pageInstance()
+  const browser = await puppeteer.launch({
+    // headless: false,
+    // executablePath:
+    //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  })
+  const page = await browser.newPage()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
   await page.click("button.login-button")
@@ -69,7 +76,6 @@ async function main() {
   })
   await page.click("#login-button")
   console.log("填写表单登陆")
-  await waitForTimeout(3000, 5000)
   await page.screenshot({ path: "screenshot.png", fullPage: true })
   try {
     await page.waitForSelector("#current-user")
@@ -80,6 +86,7 @@ async function main() {
       console.log("登录成功")
     }
   } catch (error) {
+    console.log("登录失败!")
     await page.screenshot({ path: "screenshot1.png", fullPage: true })
   }
 
