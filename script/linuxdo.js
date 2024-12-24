@@ -51,12 +51,8 @@ async function waitSomeSeconds(page) {
 }
 async function main() {
   const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
-  console.log(ACCOUNTS_JSON)
   const userName = ACCOUNTS_JSON.linuxdo.userName
   const passWord = ACCOUNTS_JSON.linuxdo.passWord
-  console.log(userName)
-  console.log(passWord)
-  return
   const { page, browser } = await pageInstance()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
