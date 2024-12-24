@@ -50,9 +50,9 @@ async function waitSomeSeconds(page) {
   await page.goto("https://linux.do/new", { waitUntil: "networkidle2" })
 }
 async function main() {
-  // const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
-  const userName = "shenpvip"
-  const passWord = "Shen3367715"
+  const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
+  const userName = ACCOUNTS_JSON.linuxdo.userName
+  const passWord = ACCOUNTS_JSON.linuxdo.passWord
   const { page, browser } = await pageInstance()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
@@ -69,25 +69,25 @@ async function main() {
   })
   await page.click("#login-button")
   console.log("填写表单登陆")
-  // await page.waitForSelector("#current-user")
-  await waitForTimeout(3000, 5000)
-  const loginElement = await page.$("#current-user")
+  await page.waitForSelector("#toggle-current-user")
+  const loginElement = await page.$("#toggle-current-user")
   if (!loginElement) {
     console.log("登录失败!")
+  } else {
+    console.log("登录成功")
   }
-  console.log("登录成功")
-  // let count = 0
-  // const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
-  // console.log(`今日目标浏览${target}次`)
-  // while (count < target) {
-  //   await waitForTimeout(500, 1000)
-  //   await randomClick(page)
-  //   await scrollToBottom(page)
-  //   count++
-  //   console.log(`已浏览${count}次`)
-  //   await waitSomeSeconds(page)
-  // }
-  // console.log("浏览完成")
+  let count = 0
+  const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
+  console.log(`今日目标浏览${target}次`)
+  while (count < target) {
+    await waitForTimeout(500, 1000)
+    await randomClick(page)
+    await scrollToBottom(page)
+    count++
+    console.log(`已浏览${count}次`)
+    await waitSomeSeconds(page)
+  }
+  console.log("浏览完成")
   await browser.close()
 }
 
