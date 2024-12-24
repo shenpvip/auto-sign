@@ -1,4 +1,3 @@
-// const puppeteer = require("puppeteer")
 const { waitForTimeout, pageInstance } = require("../utils/utils")
 const server = require("../utils/push")
 
@@ -51,18 +50,6 @@ async function waitSomeSeconds(page) {
   await page.goto("https://linux.do/new", { waitUntil: "networkidle2" })
 }
 async function main() {
-  /**
-   * 本地测试说明
-   * headless - 打开浏览器试图
-   * executablePath - 浏览器所在路径
-   */
-  // const browser = await puppeteer.launch({
-  // headless: false,
-  // executablePath:
-  //   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  // })
-
-  // const page = await browser.newPage()
   const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
   const userName = ACCOUNTS_JSON.linuxdo.userName
   const passWord = ACCOUNTS_JSON.linuxdo.passWord
