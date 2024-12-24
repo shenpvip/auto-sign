@@ -69,25 +69,32 @@ async function main() {
   })
   await page.click("#login-button")
   console.log("填写表单登陆")
-  await page.waitForSelector("#toggle-current-user")
-  const loginElement = await page.$("#toggle-current-user")
-  if (!loginElement) {
-    console.log("登录失败!")
-  } else {
-    console.log("登录成功")
+  await waitForTimeout(3000, 5000)
+  await page.screenshot({ path: "screenshot.png", fullPage: true })
+  try {
+    await page.waitForSelector("#current-user")
+    const loginElement = await page.$("#current-user")
+    if (!loginElement) {
+      console.log("登录失败!")
+    } else {
+      console.log("登录成功")
+    }
+  } catch (error) {
+    await page.screenshot({ path: "screenshot1.png", fullPage: true })
   }
-  let count = 0
-  const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
-  console.log(`今日目标浏览${target}次`)
-  while (count < target) {
-    await waitForTimeout(500, 1000)
-    await randomClick(page)
-    await scrollToBottom(page)
-    count++
-    console.log(`已浏览${count}次`)
-    await waitSomeSeconds(page)
-  }
-  console.log("浏览完成")
+
+  // let count = 0
+  // const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
+  // console.log(`今日目标浏览${target}次`)
+  // while (count < target) {
+  //   await waitForTimeout(500, 1000)
+  //   await randomClick(page)
+  //   await scrollToBottom(page)
+  //   count++
+  //   console.log(`已浏览${count}次`)
+  //   await waitSomeSeconds(page)
+  // }
+  // console.log("浏览完成")
   await browser.close()
 }
 
