@@ -20,12 +20,12 @@ jobs:
           node-version: "18.x"
       - name: install Dependencies
         run: npm install
-      - name: linuxdo
-        run: node script/linuxdo.js
+      # - name: linuxdo
+      #   run: node script/linuxdo.js
       # - name: serv00
       #   run: node script/serv00.js
-      # - name: pg同步
-      #   run: node script/asyncFile.js
+      - name: pg同步
+        run: node script/asyncFile.js
       - name: 暂存提交
         run: |
           git config --global user.name 'shenpvip'
@@ -44,15 +44,15 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-  # JueJin:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: "14.x" # 可根据需要调整 Node.js 版本
-  #     - name: install Dependencies
-  #       run: npm install
-  #     - name: juejin
-  #       run: node script/checkin.js
+  JueJin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "14.x" # 可根据需要调整 Node.js 版本
+      - name: install Dependencies
+        run: npm install
+      - name: juejin
+        run: node script/checkin.js
