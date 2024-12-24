@@ -51,6 +51,8 @@ async function waitSomeSeconds(page) {
 }
 async function main() {
   const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
+  console.log(ACCOUNTS_JSON)
+  return
   const userName = ACCOUNTS_JSON.linuxdo.userName
   const passWord = ACCOUNTS_JSON.linuxdo.passWord
   const { page, browser } = await pageInstance()
