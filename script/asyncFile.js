@@ -100,7 +100,9 @@ async function downloadMatchingFilesRecursive(
   }
 }
 
-// 示例：下载某仓库中所有 .md 文件（包括子目录）
-const repoOwner = "fish2018"
-const repoName = "PG"
-downloadMatchingFilesRecursive(repoOwner, repoName, "pg.")
+async function main() {
+  await downloadMatchingFilesRecursive("fish2018", "PG", "pg.")
+  await downloadMatchingFilesRecursive("fish2018", "ZX", "真心")
+}
+
+main()
