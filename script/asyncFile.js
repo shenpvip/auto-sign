@@ -29,16 +29,11 @@ function extractZipToDir(zipFilePath, targetDir) {
 }
 
 // 递归下载 GitHub 仓库中符合名称规则的文件
-async function downloadMatchingFilesRecursive(
-  repoOwner,
-  repoName,
-  pattern,
-  saveDir = "downloaded_files",
-  currentPath = ""
-) {
+async function downloadMatchingFilesRecursive(repoOwner, repoName, pattern) {
+  const saveDir = "downloaded_files"
   try {
     // 构造 API 请求 URL
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${currentPath}`
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents`
 
     // 获取目录内容
     const response = await axios.get(apiUrl, {
@@ -49,7 +44,7 @@ async function downloadMatchingFilesRecursive(
 
     // 解析目录内容
     for (let item of response.data) {
-      const itemPath = path.join(currentPath, item.name)
+      const itemPath = path.join("", item.name)
 
       if (
         item.type === "file" &&
@@ -75,7 +70,10 @@ async function downloadMatchingFilesRecursive(
           console.log(`文件 ${fileName} 下载完成！`)
 
           // 解压 ZIP 文件
-          extractZipToDir(fileName, path.join(__dirname, "../public/pg"))
+          extractZipToDir(
+            fileName,
+            path.join(__dirname, `../public/${repoName}`)
+          )
 
           // 可选：删除 ZIP 文件
           fs.unlinkSync(fileName)
@@ -96,7 +94,7 @@ async function downloadMatchingFilesRecursive(
       }
     }
   } catch (error) {
-    console.error(`错误：无法访问目录 ${currentPath} 或下载文件：`, error)
+    console.error(`错误：无法访问目录或下载文件：`, error)
   }
 }
 
