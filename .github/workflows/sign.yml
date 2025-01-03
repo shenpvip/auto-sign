@@ -19,7 +19,9 @@ jobs:
         with:
           node-version: "18.x"
       - name: install Dependencies
-        run: npm install
+        run: |
+          npm install
+          sudo apt install -y xvfb
       - name: linuxdo
         run: node script/linuxdo.js
       # - name: serv00
