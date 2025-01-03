@@ -1,5 +1,5 @@
-const puppeteer = require("puppeteer-extra")
-const StealthPlugin = require("puppeteer-extra-plugin-stealth")
+// const puppeteer = require("puppeteer-extra")
+// const StealthPlugin = require("puppeteer-extra-plugin-stealth")
 module.exports = {
   async waitForTimeout(start = 500, end = 1000) {
     const time = (Math.random() * (end - start) + start) >> 0
@@ -21,12 +21,12 @@ module.exports = {
   },
   async pageInstance() {
     // 使用 stealth 插件
-    puppeteer.use(StealthPlugin())
-    const browser = await puppeteer.launch({
+    // puppeteer.use(StealthPlugin())
+    var { connect } = await import("puppeteer-real-browser")
+    const { page, browser } = await connect({
       headless: "auto",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     })
-    const page = await browser.newPage()
     return { page, browser }
   },
 }

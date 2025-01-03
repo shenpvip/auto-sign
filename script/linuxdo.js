@@ -50,9 +50,9 @@ async function waitSomeSeconds(page) {
   await page.goto("https://linux.do/new", { waitUntil: "networkidle2" })
 }
 async function main() {
-  const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
-  const userName = ACCOUNTS_JSON.linuxdo.userName
-  const passWord = ACCOUNTS_JSON.linuxdo.passWord
+  // const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
+  const userName = "shenpvip"
+  const passWord = "Shen3367715"
   const { page, browser } = await pageInstance()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
@@ -67,19 +67,25 @@ async function main() {
   await passWordInput.type(passWord, {
     delay: 100,
   })
+  await waitForTimeout(500, 1000)
   await page.click("#login-button")
   console.log("填写表单登陆")
   await page.screenshot({ path: "screenshot.png", fullPage: true })
+
   try {
-    await page.waitForSelector("#current-user")
-    const loginElement = await page.$("#current-user")
+    await page.waitForNavigation({ waitUntil: "domcontentloaded" })
+    const loginElement = await page.$eval(
+      "#toggle-current-user img.avatar",
+      (el) => el.src
+    )
+    console.log(loginElement, "---")
     if (!loginElement) {
       console.log("登录失败!")
     } else {
       console.log("登录成功")
     }
   } catch (error) {
-    console.log("登录失败!")
+    console.log("登录失败!", error)
     await page.screenshot({ path: "screenshot1.png", fullPage: true })
   }
 
