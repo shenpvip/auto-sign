@@ -100,7 +100,7 @@ async function downloadMatchingFilesRecursive(repoOwner, repoName, pattern) {
 
 async function main() {
   await downloadMatchingFilesRecursive("fish2018", "PG", "pg.")
-  await downloadMatchingFilesRecursive("fish2018", "ZX", "真心")
+  // await downloadMatchingFilesRecursive("fish2018", "ZX", "真心")
 }
 
 main()
