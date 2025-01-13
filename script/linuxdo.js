@@ -19,7 +19,7 @@ async function randomClick(page) {
 async function scrollToBottom(page) {
   // 定义每次滚动的步长
   const scrollStep = 100 // 每次滚动的像素数（可以根据页面高度调整）
-  const scrollDelay = 1000 // 每次滚动后的延迟时间（毫秒）
+  const scrollDelay = Math.floor(Math.random() * (1500 - 500 + 1)) + 500 // 随机延迟 // 每次滚动后的延迟时间（毫秒）
 
   // 滚动页面的函数
   const autoScroll = async () => {
@@ -50,9 +50,14 @@ async function waitSomeSeconds(page) {
   await page.goto("https://linux.do/new", { waitUntil: "networkidle2" })
 }
 async function main() {
-  // const ACCOUNTS_JSON = JSON.parse(process.env.ACCOUNTS_JSON)
-  const userName = "shenpvip"
-  const passWord = "Shen3367715"
+  const ACCOUNTS_JSON = process.env.ACCOUNTS_JSON
+    ? JSON.parse(process.env.ACCOUNTS_JSON)
+    : null
+  if (!ACCOUNTS_JSON || !ACCOUNTS_JSON.linuxdo) {
+    throw new Error("ACCOUNTS_JSON 环境变量未设置或格式不正确")
+  }
+  const userName = ACCOUNTS_JSON.linuxdo.userName
+  const passWord = ACCOUNTS_JSON.linuxdo.passWord
   const { page, browser } = await pageInstance()
   await page.goto("https://linux.do", { waitUntil: "networkidle2" })
   await page.waitForSelector("button.login-button")
@@ -89,18 +94,18 @@ async function main() {
     await page.screenshot({ path: "screenshot1.png", fullPage: true })
   }
 
-  // let count = 0
-  // const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
-  // console.log(`今日目标浏览${target}次`)
-  // while (count < target) {
-  //   await waitForTimeout(500, 1000)
-  //   await randomClick(page)
-  //   await scrollToBottom(page)
-  //   count++
-  //   console.log(`已浏览${count}次`)
-  //   await waitSomeSeconds(page)
-  // }
-  // console.log("浏览完成")
+  let count = 0
+  const target = Math.floor(Math.random() * (5 - 3 + 1)) + 3
+  console.log(`今日目标浏览${target}次`)
+  while (count < target) {
+    await waitForTimeout(500, 1000)
+    await randomClick(page)
+    await scrollToBottom(page)
+    count++
+    console.log(`已浏览${count}次`)
+    await waitSomeSeconds(page)
+  }
+  console.log("浏览完成")
   await browser.close()
 }
 

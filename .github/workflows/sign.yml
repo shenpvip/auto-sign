@@ -21,6 +21,7 @@ jobs:
       - name: install Dependencies
         run: |
           npm install
+      # sudo apt-get install xvfb
       # - name: linuxdo
       #   run: node script/linuxdo.js
       # - name: serv00
