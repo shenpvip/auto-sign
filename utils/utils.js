@@ -1,5 +1,5 @@
-// const puppeteer = require("puppeteer-extra")
-// const StealthPlugin = require("puppeteer-extra-plugin-stealth")
+const puppeteer = require("puppeteer-extra")
+const StealthPlugin = require("puppeteer-extra-plugin-stealth")
 module.exports = {
   async waitForTimeout(start = 500, end = 1000) {
     const time = (Math.random() * (end - start) + start) >> 0
@@ -22,6 +22,12 @@ module.exports = {
   async pageInstance() {
     // 使用 stealth 插件
     // puppeteer.use(StealthPlugin())
+    // var browser = await puppeteer.launch({
+    //   headless: false,
+    //   executablePath:
+    //     "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    // })
+    // var page = await browser.newPage()
     var { connect } = await import("puppeteer-real-browser")
     const { page, browser } = await connect({
       headless: "auto",
