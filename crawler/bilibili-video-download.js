@@ -1,11 +1,13 @@
 const puppeteer = require("puppeteer")
 const fs = require("fs")
 const path = require("path")
-const { execFileSync } = require("child_process")
+const { execFileSync, spawn } = require("child_process")
+const { waitForTimeout, pageInstance } = require("../utils/utils")
 const axios = require("axios")
 
-const exePath = "C:\\project\\media-download\\lux\\"
+const exePath = "D:\\media-download\\lux\\"
 let basePath = ""
+let errorUrl = []
 /**
  * 获取视频信息
  * @param {*} url 视频url
@@ -35,7 +37,7 @@ async function getInfo(url) {
     (element) => element.innerText
   )
   // 要检查和创建的文件夹路径
-  title = title.replace(/[<>:"/\\|?*]/g, "_")
+  title = title.replace(/[<>:"/\\|?*\s]/g, "_")
   basePath = path.join(exePath, title)
   // 检查文件夹是否存在
   if (!fs.existsSync(basePath)) {
@@ -64,15 +66,13 @@ async function getInfo(url) {
 /**
  * 执行exe 文件下载视频
  * @param {*} url 视频url
- * @param {*} mode down 下载，info 获取信息
  */
-async function runExe(url, mode = "down") {
+function runExe(url, mode = "down") {
   // 这里的路径需要替换为你的 .exe 文件的实际路径
   const executablePath = path.join(exePath, "lux.exe")
 
   // 参数（如果有的话）可以放在这个数组中
   const infoArgs = ["-c", path.join(exePath, "bilibili_cookie.txt"), "-i", url]
-
   const downloadArgs = [
     "-c",
     path.join(exePath, "bilibili_cookie.txt"),
@@ -82,19 +82,37 @@ async function runExe(url, mode = "down") {
     basePath,
     url,
   ]
+  console.log(downloadArgs)
   const args = mode === "info" ? infoArgs : downloadArgs
   console.log(`开始下载...`)
   // 执行 .exe 文件
-  try {
-    // 同步执行文件并捕获标准输出
-    const output = execFileSync(executablePath, args, {
-      encoding: "utf8", // 指定输出的编码
-      stdio: "pipe", // 控制输入输出，可以是 'inherit', 'ignore', 或 'pipe'
+  return new Promise((resolve, reject) => {
+    const child = spawn(executablePath, args, { shell: true })
+    child.stdout.on("data", (data) => {
+      console.log(`stdout: ${data}`)
     })
-    console.log(`下载成功: ${output}`)
-  } catch (error) {
-    console.error(`完整的错误信息: ${error}`)
-  }
+    child.stderr.on("data", (data) => {
+      console.error(`stderr: ${data}`)
+    })
+    child.on("error", (error) => {
+      console.error(`error: ${error.message}`)
+      reject(error)
+    })
+    child.on("close", (code) => {
+      console.log(`子进程退出，退出码 ${code}`)
+      resolve()
+    })
+  })
+  // try {
+  //   // 同步执行文件并捕获标准输出
+  //   const output = execFileSync(executablePath, args, {
+  //     encoding: "utf8", // 指定输出的编码
+  //     stdio: "pipe", // 控制输入输出，可以是 'inherit', 'ignore', 或 'pipe'
+  //   })
+  //   console.log(`下载成功: ${output}`)
+  // } catch (error) {
+  //   console.error(`完整的错误信息: ${error}`)
+  // }
 }
 
 /**
@@ -130,7 +148,7 @@ async function downloadImage(url, title) {
   }
 }
 
-async function saveDesp(textContent, title) {
+function saveDesp(textContent, title) {
   // 保存文件的路径，确保文件名带有 .txt 扩展名
   const outputPath = path.join(basePath, `${title}.txt`) // 你可以根据需要更改文件路径和名称
   try {
@@ -143,29 +161,53 @@ async function saveDesp(textContent, title) {
 }
 
 async function getVideoList(url) {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
+  const { browser, page } = await pageInstance()
   await page.goto(url, { waitUntil: "networkidle2" })
 
-  let hrefs = await page.$$eval(
-    "#submit-video-list .list-list li a",
-    (elements) => {
-      return elements.map((element) => element.href)
-    }
-  )
+  let hrefs = await page.evaluate(() => {
+    return Array.from(
+      document.querySelectorAll("#submit-video-list .list-list li a")
+    ).map((a) => a.href)
+  })
   hrefs = [...new Set(hrefs)]
-  hrefs = hrefs.splice(0, 10)
+  hrefs = hrefs.filter((href) => href.includes("video"))
+  hrefs = hrefs.splice(0, 18)
   await browser.close()
   return hrefs
 }
 
 async function main() {
-  const url = "https://space.bilibili.com/701220372/video"
-  const list = await getVideoList(url)
-  for (const item of list) {
-    await getInfo(item)
-    await runExe(item)
-  }
+  // const url = "https://space.bilibili.com/701220372/video"
+  // const list = await getVideoList(url)
+  const list = [
+    // "https://www.bilibili.com/video/BV1n7NLeLEc9/",
+    // "https://www.bilibili.com/video/BV1wKFGetEVX/",
+    // "https://www.bilibili.com/video/BV1rKwmewEmc/",
+    "https://www.bilibili.com/video/BV1ACrbYaEEj/",
+    // "https://www.bilibili.com/video/BV1sjkFYnEHc/",
+    "https://www.bilibili.com/video/BV1DSqUYWEiL/",
+    "https://www.bilibili.com/video/BV1ssU3YKEdd/",
+    "https://www.bilibili.com/video/BV1Q8DpYEEDP/",
+    "https://www.bilibili.com/video/BV1qr1VYHEGX/",
+    "https://www.bilibili.com/video/BV1bo1VY3Eda/",
+    "https://www.bilibili.com/video/BV1WtyEYkEw9/",
+    "https://www.bilibili.com/video/BV1NFyPYiEM9/",
+    "https://www.bilibili.com/video/BV1VcmGYmEJL/",
+    "https://www.bilibili.com/video/BV1C921Y4EZb/",
+    "https://www.bilibili.com/video/BV1MA2pYPEbS/",
+    "https://www.bilibili.com/video/BV1gbx8edEUU/",
+    "https://www.bilibili.com/video/BV1nysherEGU/",
+  ]
+  // for (const item of list) {
+  //   await getInfo("https://www.bilibili.com/video/BV1gbx8edEUU/")
+  //   await runExe("https://www.bilibili.com/video/BV1gbx8edEUU/")
+  //   await waitForTimeout(1000, 2000)
+  // }
+  await getInfo("https://www.bilibili.com/video/BV1SnSMYNETC")
+  await runExe("https://www.bilibili.com/video/BV1SnSMYNETC")
+  console.log("运行结束！")
+  console.log("下载失败列表：")
+  console.log(errorUrl)
 }
 
 main(process.argv.splice(2)).catch((error) => {
