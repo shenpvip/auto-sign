@@ -46,6 +46,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          repository: "https://github.com/shenpvip/drpy-node"
   JueJin:
     runs-on: ubuntu-latest
     steps:
