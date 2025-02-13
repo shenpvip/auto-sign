@@ -46,16 +46,16 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-          repository: "https://github.com/shenpvip/drpy-node"
-  JueJin:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "14.x" # 可根据需要调整 Node.js 版本
-      - name: install Dependencies
-        run: npm install
-      - name: juejin
-        run: node script/checkin.js
+          repository: "shenpvip/drpy-node"
+  # JueJin:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "14.x" # 可根据需要调整 Node.js 版本
+  #     - name: install Dependencies
+  #       run: npm install
+  #     - name: juejin
+  #       run: node script/checkin.js
