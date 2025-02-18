@@ -72,7 +72,7 @@ async function downloadMatchingFilesRecursive(repoOwner, repoName, pattern) {
           // 解压 ZIP 文件
           extractZipToDir(
             fileName,
-            path.join(__dirname, `${repoName}`)
+            path.join(__dirname, `../public/${repoName}`)
           )
 
           // 可选：删除 ZIP 文件
