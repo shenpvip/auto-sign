@@ -10,39 +10,6 @@ env:
   PUSH_KEY: ${{ secrets.PUSH_KEY }}
   ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
 jobs:
-  AutoJob:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18.x"
-      - name: install Dependencies
-        run: |
-          npm install
-      # - name: serv00
-      #   run: node script/serv00.js
-      - name: pg同步
-        run: node script/asyncFile.js
-      - name: 暂存提交
-        run: |
-          git config --global user.name 'shenpvip'
-          git config --global user.email '396635614@qq.com'
-          # 检查是否有改动
-          if [[ -n $(git status --porcelain) ]]; then
-              # 如果有改动，则执行添加和提交操作
-              git add .
-              git commit -m "update"
-              echo "改动已提交。"
-          else
-              # 如果没有改动
-              echo "没有改动，跳过提交。"
-          fi
-      - name: 推送
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
   JueJin:
     runs-on: ubuntu-latest
     steps:
